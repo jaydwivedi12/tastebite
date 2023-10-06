@@ -1,5 +1,5 @@
 import React from 'react'
-import { NavLink } from 'react-router-dom'
+import { Link,NavLink } from 'react-router-dom'
 
 const Login = () => {
   return (
@@ -24,7 +24,7 @@ const Login = () => {
                   </div>
                   <div className="flex items-center justify-between">
                     
-                      <NavLink to="#" className="text-sm font-medium text-primary-600 hover:underline dark:text-primary-500">Forgot password?</NavLink>
+                      <Link to="#" className="text-sm font-medium text-primary-600 hover:underline dark:text-primary-500">Forgot password?</Link>
                   </div>
                   <button type="submit" className="w-full text-black bg-primary-600 hover:bg-primary-700 focus:ring-4 focus:outline-none focus:ring-primary-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-primary-600 dark:hover:bg-primary-700 dark:focus:ring-primary-800 border">Log in</button>
                   <p className="text-sm font-light text-gray-500 dark:text-gray-400">

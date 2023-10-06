@@ -7,23 +7,25 @@ import Login from './pages/Login'
 import Signup from './pages/Signup'
 import Sell from './pages/Sell'
 import Buy from './pages/Buy'
+import ProductDetails from './components/ProductDetails'
 import './styles/App.css'
 
 const App = () => {
   return (
-  <div className='App'>
-    <div>
-      <Navbar/>
+    <div className='App'>
+      <div>
+        <Navbar />
+      </div>
+      <Routes>
+        <Route path="/" element={<Home />} />
+        <Route path='/buy' element={<Buy />} />
+        <Route path='/sell' element={<Sell />} />
+        <Route path='/login' element={<Login />} />
+        <Route path='/signup' element={<Signup />} />
+        <Route path="/product/details/:id" element={<ProductDetails/>} />
+        <Route path='/cart' element={<Cart />} />
+      </Routes>
     </div>
-    <Routes>
-      <Route path="/" element={<Home/>}/>
-      <Route path='/buy' element={<Buy/>}/>
-      <Route path='/sell' element={<Sell/>}/>
-      <Route path='/login' element={<Login/>}/>
-      <Route path='/signup' element={<Signup/>}/>
-      <Route path='/cart' element={<Cart/>}/>
-    </Routes>
-  </div>
   )
 }
 

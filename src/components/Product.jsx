@@ -1,15 +1,23 @@
-import React from 'react';
+
+import { useNavigate } from 'react-router-dom';
 
 const Product = (props) => {
-  const detailsHandler=()=>{
+  const post = props.recipe;
+  const navigate=useNavigate();
 
-  };
-
-  const ingriedientsHandler=()=>{
-
+  const detailsHandler = (postID) => {
+    const uriParts = postID.split('#');
+    if (uriParts.length > 1) {
+      const id = uriParts[1]; 
+      navigate(`/product/details/${id}`);
+    } 
   };
   
-  const post = props.recipe;
+  const sourceHandler=()=>{
+  window.open(post.url);
+  };
+  
+
   return (
     <div className='flex flex-col items-center justify-between
     hover:scale-110 transition duration-300 ease-in-out gap-3 mt-10 ml-5 rounded-xl outline
@@ -26,16 +34,16 @@ const Product = (props) => {
               text-[12px] p-1 px-3 uppercase
               hover:bg-gray-700 transition duration-300 ease-in
               hover:text-white'>
-                <button onClick={ingriedientsHandler}>
-                  Ingredients
+                <button onClick={()=>detailsHandler(post.uri)}>
+                  Details
                 </button>
               </div>
           <div className='text-white border-2 bg-black border-blue-900 rounded-full font-semibold 
               text-[12px] p-1 px-3 uppercase
               hover:bg-white transition duration-300 ease-in
               hover:text-black'>
-          <button onClick={detailsHandler}>
-                  Details
+          <button onClick={sourceHandler}>
+                  Source
                 </button>
           </div>
         </div>

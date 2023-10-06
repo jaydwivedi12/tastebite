@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { FaShoppingCart, FaBars } from 'react-icons/fa';
 import { RxCross2} from "react-icons/rx"
 import { NavLink,Link } from 'react-router-dom';
+import logo from "../assets/logo.png"
 
 const Navbar = () => {
   const [showMenu, setShowMenu] = useState(true);
@@ -15,7 +16,7 @@ const Navbar = () => {
       <nav className='bg-blue-950 flex flex-row justify-between items-center px-4 md:px-24 py-2 relative text-white'>
         <Link to="/" className="h-20">
           <div>
-            <img src='./logo.png' alt="logo" className="h-20" />
+            <img src={logo} alt="logo" className="h-20" />
           </div>
         </Link>
 
