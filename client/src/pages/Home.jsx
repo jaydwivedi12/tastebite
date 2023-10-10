@@ -69,6 +69,7 @@ const Home = () => {
   }, [hasMore]);
 
   return (
+    
     <div className="flex flex-col justify-center items-center">
       <div className="text-4xl bg-inherit flex justify-center items-center ">
         Find Free Recipes
