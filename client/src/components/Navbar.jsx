@@ -3,8 +3,10 @@ import { FaShoppingCart, FaBars } from 'react-icons/fa';
 import { RxCross2} from "react-icons/rx"
 import { NavLink,Link } from 'react-router-dom';
 import logo from "../assets/logo.png"
+import { useSelector } from 'react-redux';
 
 const Navbar = () => {
+  const cart=useSelector((state)=>state.cart);
   const [showMenu, setShowMenu] = useState(true);
 
   const toggleMenu = () => {
@@ -43,7 +45,13 @@ const Navbar = () => {
             <p>Sell Secret Recipe</p>
           </NavLink>
           <Link to="/cart" className="relative">
-          <p className='flex justify-center'> <FaShoppingCart className="text-2xl" /></p>  
+            <FaShoppingCart className="text-2xl" />
+            {
+              cart.length >0 && 
+              <span className="absolute bg-green-600 text-xs w-5 h-5 flex justify-center items-center animate-bounce -top-1 -right-2 rounded-full  text-white">
+                {cart.length}
+              </span>
+            }
           </Link>
         </div>
       </nav>

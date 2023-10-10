@@ -4,15 +4,20 @@ import connectDB from './Connection/db.js';
 import chalk from 'chalk';
 import authRouter from './Routes/userRoute.js';
 import recipeRouter from './Routes/recipeRoute.js';
-const PORT = process.env.PORT;
+import cors from "cors";
+import morgan from 'morgan';
 
+const PORT = process.env.PORT;
 const app = express();
+
+app.use(cors())
 app.use(express.json());
+app.use(morgan("dev"));
 dotenv.config();
 
 connectDB();
 
-// Define API routes
+
 app.get('/', (req, res) => {
   res.send('Hello World!')
 })

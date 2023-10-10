@@ -11,6 +11,6 @@ recipeRouter.post("/add",upload,uploadCompressedImage,addRecipe);
 recipeRouter.get("/get",getRecipe);
 recipeRouter.get("/get/:id",getRecipeById)
 recipeRouter.patch("/update/:id",upload,updateCompressedImage,updateRecipe);
-recipeRouter.delete("/delete",deleteRecipe);
+recipeRouter.delete("/delete/:id",deleteRecipe);
 
 export default recipeRouter;

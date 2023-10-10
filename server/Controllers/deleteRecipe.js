@@ -4,7 +4,7 @@ async function deleteRecipe(req,res){
     try {
         const {id}=req.params;
 
-        await Recipe.findByIdAndDelete(id);
+        await Recipe.findByIdAndDelete({ _id:id});
 
         res.json({
             success:true,

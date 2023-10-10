@@ -3,7 +3,7 @@ import {uploadCompressedImage} from "../Middleware/compressedImage.js";
 
 async function addRecipe(req, res) {
     try {
-        const { recipe_name, ingredients, process, price, time } = req.body;
+        const {recipe_name, ingredients, process, price, time } = req.body;
         const image = req.compressedImageBuffer;
         const recipe = await Recipe.create({
             recipe_name,
