@@ -1,18 +1,39 @@
 import React, { useState } from 'react';
 import { FaShoppingCart, FaBars } from 'react-icons/fa';
 import { RxCross2} from "react-icons/rx"
-import { NavLink,Link } from 'react-router-dom';
+import { NavLink,Link, useNavigate } from 'react-router-dom';
 import logo from "../assets/logo.png"
 import { useSelector } from 'react-redux';
+import { useContext } from 'react';
+import AuthContext from '../Context/AuthContext';
+import { toast } from 'react-toastify';
+import Profile from './Profile';
+
+
 
 const Navbar = () => {
+  const navigate=useNavigate();
   const cart=useSelector((state)=>state.cart);
   const [showMenu, setShowMenu] = useState(true);
+  const[showProfile,setShowProfile]=useState(false);
+  const {loggedIn,setLoggedIn}=useContext(AuthContext);
+  
 
   const toggleMenu = () => {
     setShowMenu(!showMenu);
   };
 
+  const toggleProfile=()=>{
+    setShowProfile(!showProfile);
+  }
+
+  const logoutHandler=()=>{
+    localStorage.removeItem("token")
+    toast.success("Logged Out")
+    navigate("/")
+    setLoggedIn(false);
+
+  }
   return (
     <div>
       <nav className='bg-blue-950 flex flex-row justify-between items-center px-4 md:px-24 py-2 relative text-white'>
@@ -32,12 +53,25 @@ const Navbar = () => {
           <NavLink to="/">
             <p>Home</p>
           </NavLink>
-          <NavLink to="/login">
+          {loggedIn ===true ?
+          ( <>
+            <Link to="/">
+            <p onClick={logoutHandler}>Logout</p>
+          </Link>
+            <p onClick={toggleProfile}>Profile</p>
+            {showProfile && <Profile/> }
+          </>):
+          ( <>
+            <NavLink to="/login">
             <p>Login</p>
           </NavLink>
-          <NavLink to="/Signup">
+            <NavLink to="/Signup">
             <p>SignUp</p>
           </NavLink>
+          </>
+          )}
+          
+         
           <NavLink to="/buy">
             <p>Buy Secret Recipe</p>
           </NavLink>

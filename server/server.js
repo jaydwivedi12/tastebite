@@ -6,6 +6,7 @@ import authRouter from './Routes/userRoute.js';
 import recipeRouter from './Routes/recipeRoute.js';
 import cors from "cors";
 import morgan from 'morgan';
+import cookieParser from 'cookie-parser'; 
 
 const PORT = process.env.PORT;
 const app = express();
@@ -13,6 +14,8 @@ const app = express();
 app.use(cors())
 app.use(express.json());
 app.use(morgan("dev"));
+app.use(cookieParser());
+
 dotenv.config();
 
 connectDB();

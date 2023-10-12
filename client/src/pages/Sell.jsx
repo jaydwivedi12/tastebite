@@ -51,7 +51,7 @@ function Sell() {
   formDataToSend.append("time", formData.time);
 
   try {
-    const response = await axios.post("http://localhost:8080/api/recipe/add", formDataToSend);
+    const response = await axios.post("/api/recipe/add", formDataToSend);
     if (response.status === 200) {
       navigate("/");
       toast.success("Recipe Added SuccessFully");

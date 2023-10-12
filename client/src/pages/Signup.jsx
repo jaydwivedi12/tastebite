@@ -1,8 +1,10 @@
 import React, { useState } from 'react';
-import { NavLink } from 'react-router-dom';
+import { NavLink, useNavigate } from 'react-router-dom';
 import axios from 'axios';
+import { toast } from 'react-toastify';
 
 const Signup = () => {
+  const navigate=useNavigate();
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
@@ -18,20 +20,22 @@ const Signup = () => {
     }
 
     try {
-      const response = await axios.post('/signup', {
+      const response = await axios.post('api/auth/signup', {
         name,
         email,
         password,
       });
   
       if (response.status === 200) {
-        console.log('Signup successful');
-      } else {
-        setError('An error occurred during signup');
-      }
-    } catch (err) {
-      setError('An error occurred during signup');
-      console.error(err);
+        toast.success("Signup Successfully! Login to Proceed Further", {
+          position: toast.POSITION.TOP_CENTER
+        });
+        navigate("/login")
+      } 
+
+    } catch (error) {
+      setError(error.response.data.message);
+      console.error(error);
     }
   };
 

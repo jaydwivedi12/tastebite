@@ -1,19 +1,44 @@
-import React, { useState } from 'react';
-import { Link, NavLink } from 'react-router-dom';
+import axios from 'axios';
+import React, { useContext, useState } from 'react';
+import { Link, NavLink, useNavigate} from 'react-router-dom';
+import { toast } from 'react-toastify';
+import "react-toastify/dist/ReactToastify.css";
+import AuthContext from '../Context/AuthContext';
+
 
 const Login = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
 
+  const { setLoggedIn } = useContext(AuthContext);
 
-  const handleLogin = (e) => {
+  const navigate = useNavigate();
+
+  const handleLogin = async (e) => {
     e.preventDefault();
    
-    //for backend
-    
-  
-    setEmail('');
-    setPassword('');
+    try {
+      const response = await axios.post('/api/auth/login', {
+        email,
+        password,
+      });
+
+      if (response.status === 200) {
+        localStorage.setItem("token", JSON.stringify(response.data.token))
+        setLoggedIn(true);
+        toast.success("Login Successfull", {
+          position: toast.POSITION.TOP_CENTER
+        })
+        navigate('/');
+      } else {
+        console.error(response.data.message);
+      }
+    } catch (error) {
+      toast.error(error.response.data.message, {
+        position: toast.POSITION.TOP_CENTER
+      });
+      console.error(error.response.data.message);
+    }
   };
 
   return (

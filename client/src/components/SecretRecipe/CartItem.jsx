@@ -7,6 +7,9 @@ import "react-toastify/dist/ReactToastify.css";
 
 
 const CartItem = ({item}) => {
+  const uint8Array = new Uint8Array(item.image.data);
+  const binaryString = uint8Array.reduce((str, byte) => str + String.fromCharCode(byte), '');
+  const img = `data:image/jpeg;base64,${btoa(binaryString)}`;
   const dispatch=useDispatch();
   const removeFromCart=()=>{
 dispatch(remove(item._id))
@@ -15,7 +18,7 @@ toast.success("item removed from cart",{ position: toast.POSITION.TOP_CENTER})
   return (
     <div className="w-[100%] md:w-[60%] flex flex-col p-2">
       <div class="flex items-center p-2 md:p-5 justify-between border-b-2 border-slate-500  mt-2 mb-2 md:mx-5 ">
-        <div className='w-[30%]'> <img src={item.image} alt="" /></div>
+        <div className='w-[30%]'> <img src={img} alt="" /></div>
         <div
         className="md:ml-10 self-start space-y-5 w-[100%] md:w-[70%]">
          <div class="text-xl text-slate-700 font-semibold"> {item.recipe_name}</div>

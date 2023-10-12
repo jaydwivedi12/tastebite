@@ -4,7 +4,7 @@ import BuyProduct from "../components/SecretRecipe/BuyProduct";
 import axios from "axios";
 
 const Buy = () => {
-  const API_URL = "http://localhost:8080/api/recipe/get";
+  const API_URL = "/api/recipe/get";
   const [loading, setLoading] = useState(false);
   const [posts, setPosts] = useState([]);
 
