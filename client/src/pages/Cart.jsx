@@ -1,13 +1,52 @@
-import React, { useEffect, useState } from 'react'
+import React, { useContext, useEffect, useState } from 'react'
 import { useSelector } from 'react-redux'
 import CartItem from '../components/SecretRecipe/CartItem'
-import { NavLink } from 'react-router-dom'
+import { NavLink, useNavigate } from 'react-router-dom'
+import AuthContext from '../Context/AuthContext'
+import { toast } from 'react-toastify'
+import {loadStripe} from '@stripe/stripe-js';
 
 
 const Cart = () => {
+  const STRIPE_P_API = process.env.REACT_STRIPE_PUBLIC;
   const cart = useSelector((state) => state.cart);
   const [totalAmount, setTotalAmount] = useState(0);
+  const {loggedIn}=useContext(AuthContext);
+  const navigate=useNavigate();
 
+  const checkoutHandler=async()=>{
+    if (!loggedIn) {
+      navigate("/login");
+      toast.warn("Login to Sell Recipe");
+      return;
+    }
+   
+    const stripe=await loadStripe(STRIPE_P_API)
+    const body={
+      products:cart
+    }
+    const headers={
+      "content-type":"application/json"
+    }
+
+    const response=await fetch("/api/payment/create-checkout-session",{
+      method:"POST",
+      headers:headers,
+      body:JSON.stringify(body)
+
+    });
+     
+    const session =await response.json();
+    
+    const result=stripe.redirectToCheckout(
+      {
+        sessionId:session.id
+      });
+     
+      if (result.error) {
+        console.error(result.error);
+      }
+  }
   useEffect(() => {
     setTotalAmount(cart.reduce((acc, curr) => acc + curr.price, 0));
   }, [cart])
@@ -19,7 +58,7 @@ const Cart = () => {
             <div>
               {
                 cart.map((item) => {
-                  return <CartItem key={item.id} item={item} />
+                  return <CartItem key={item._id} item={item} />
                 })
               }
             </div>
@@ -32,7 +71,7 @@ const Cart = () => {
               <p className='text-lg text-gray-700 font-medium'>
                 Total amount: {totalAmount}
               </p>
-                <button className=' text-lg mt-4 font-bold 
+                <button onClick={checkoutHandler} className=' text-lg mt-4 font-bold 
                 bg-green-700 text-white rounded-full'>
                   Checkout Now
                 </button>

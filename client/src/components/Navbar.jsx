@@ -8,7 +8,7 @@ import { useContext } from 'react';
 import AuthContext from '../Context/AuthContext';
 import { toast } from 'react-toastify';
 import Profile from './Profile';
-
+import axios from 'axios';
 
 
 const Navbar = () => {
@@ -27,7 +27,8 @@ const Navbar = () => {
     setShowProfile(!showProfile);
   }
 
-  const logoutHandler=()=>{
+  const logoutHandler= async()=>{
+    await axios.post("/api/auth/logout")
     localStorage.removeItem("token")
     toast.success("Logged Out")
     navigate("/")

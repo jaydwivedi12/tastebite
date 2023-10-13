@@ -2,11 +2,13 @@ import React, { useState } from "react";
 import axios from "axios";
 import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import { useContext } from "react";
 import { useNavigate } from "react-router-dom";
+import AuthContext from "../Context/AuthContext";
 
 
 function Sell() {
-  
+  const{loggedIn}=useContext(AuthContext)
   const navigate = useNavigate();
 
   const [formData, setFormData] = useState({
@@ -35,6 +37,11 @@ function Sell() {
   };
 
   const handleSubmit = async (e) => {
+    if (!loggedIn) {
+      navigate("/login");
+      toast.warn("Login to Sell Recipe");
+      return;
+    }
   e.preventDefault();
   const ingredientsArray = formData.ingredients.split("\n").map((ingredient) => ingredient.trim());
 

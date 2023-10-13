@@ -26,17 +26,13 @@ const Login = () => {
       if (response.status === 200) {
         localStorage.setItem("token", JSON.stringify(response.data.token))
         setLoggedIn(true);
-        toast.success("Login Successfull", {
-          position: toast.POSITION.TOP_CENTER
-        })
+        toast.success("Login Successfull")
         navigate('/');
       } else {
         console.error(response.data.message);
       }
     } catch (error) {
-      toast.error(error.response.data.message, {
-        position: toast.POSITION.TOP_CENTER
-      });
+      toast.error(error.response.data.message);
       console.error(error.response.data.message);
     }
   };
