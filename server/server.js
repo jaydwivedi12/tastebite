@@ -7,6 +7,7 @@ import recipeRouter from './Routes/recipeRoute.js';
 import cors from "cors";
 import morgan from 'morgan';
 import cookieParser from 'cookie-parser'; 
+import paymentRouter from './Routes/paymentRoute.js';
 
 const PORT = process.env.PORT;
 const app = express();
@@ -27,6 +28,7 @@ app.get('/', (req, res) => {
 
 app.use('/api/auth', authRouter);
 app.use('/api/recipe', recipeRouter);
+app.use('/api/payment',paymentRouter)
 
 app.listen(PORT, () => {
   console.log(chalk.bgBlue.black(`App is running successfully on port ${PORT}`));

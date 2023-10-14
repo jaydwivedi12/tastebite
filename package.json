@@ -2,7 +2,7 @@
   "name": "tastebite",
   "version": "1.0.0",
   "description": "To run frotend and backend simultaneously ",
-  "main": "index.js",
+  "main": "client/.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "server": "cd server && node server.js",

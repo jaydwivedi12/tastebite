@@ -30,6 +30,7 @@ const Navbar = () => {
   const logoutHandler= async()=>{
     await axios.post("/api/auth/logout")
     localStorage.removeItem("token")
+    localStorage.removeItem("isloggedIn")
     toast.success("Logged Out")
     navigate("/")
     setLoggedIn(false);
@@ -37,7 +38,7 @@ const Navbar = () => {
   }
   return (
     <div>
-      <nav className='bg-blue-950 flex flex-row justify-between items-center px-4 md:px-24 py-2 relative text-white'>
+      <nav className=' bg-blue-950 flex flex-row justify-between items-center px-4 md:px-24 py-2 relative text-white'>
         <Link to="/" className="h-20">
           <div>
             <img src={logo} alt="logo" className="h-20" />
@@ -48,7 +49,7 @@ const Navbar = () => {
         { showMenu ? <RxCross2 className='font-bold'/>:<FaBars  /> } 
         </div>
 
-        <div className={`absolute top-24 p-3 right-0 bg-gray-700 flex-col gap-5 
+        <div className={`hide-on-print absolute top-24 p-3 right-0 bg-gray-700 flex-col gap-5 
         md:bg-inherit text-center md:static flex md:flex-row md:space-x-6 text-white 
         ${showMenu ? 'block' : 'hidden'}`}>
           <NavLink to="/">

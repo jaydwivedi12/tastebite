@@ -6,47 +6,60 @@ import AuthContext from '../Context/AuthContext'
 import { toast } from 'react-toastify'
 import {loadStripe} from '@stripe/stripe-js';
 
-
 const Cart = () => {
-  const STRIPE_P_API = process.env.REACT_STRIPE_PUBLIC;
+  const STRIPE_PUBLIC_KEY="pk_test_51O0n3hSFqn1wQvdS7qwB2kEho9yTg0YPr4AIlDYwtaeV1oEt1fxYaUNK6BsmNoFe8iwEVUiRS0QIxWSAwFUqyzwD00XWwLpiLF";
   const cart = useSelector((state) => state.cart);
   const [totalAmount, setTotalAmount] = useState(0);
   const {loggedIn}=useContext(AuthContext);
   const navigate=useNavigate();
 
-  const checkoutHandler=async()=>{
-    if (!loggedIn) {
-      navigate("/login");
-      toast.warn("Login to Sell Recipe");
-      return;
-    }
-   
-    const stripe=await loadStripe(STRIPE_P_API)
-    const body={
-      products:cart
-    }
-    const headers={
-      "content-type":"application/json"
-    }
 
-    const response=await fetch("/api/payment/create-checkout-session",{
-      method:"POST",
-      headers:headers,
-      body:JSON.stringify(body)
+  const checkoutHandler = async () => {
+  if (!loggedIn) {
+    navigate("/login");
+    toast.warn("Login to Buy Recipe");
+    return;
+  }
 
+  const stripe = await loadStripe(STRIPE_PUBLIC_KEY);
+  
+  // Create a copy of the cart data without the image field
+  const cartWithoutImages = cart.map(item => {
+    const { image, ...rest } = item;
+    return rest;
+  });
+
+  const body = {
+    products: cartWithoutImages, 
+  };
+
+  const headers = {
+    "Content-Type": "application/json",
+  };
+
+  try {
+    const response = await fetch("/api/payment/checkout", {
+      method: "POST",
+      headers: headers,
+      body: JSON.stringify(body),
     });
-     
-    const session =await response.json();
-    
-    const result=stripe.redirectToCheckout(
-      {
-        sessionId:session.id
+
+    if (!response.ok) {
+      console.error(`HTTP Error: ${response.status}`);
+    } else {
+      const session = await response.json();
+      const result = stripe.redirectToCheckout({
+        sessionId: session.id,
       });
-     
       if (result.error) {
         console.error(result.error);
       }
+    }
+  } catch (error) {
+    console.error("An error occurred:", error);
   }
+};
+
   useEffect(() => {
     setTotalAmount(cart.reduce((acc, curr) => acc + curr.price, 0));
   }, [cart])

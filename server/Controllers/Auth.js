@@ -122,4 +122,4 @@ async function logout(req, res) {
 }
 
 
-export { login, signup,logout };
+export { login, signup,logout};

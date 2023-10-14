@@ -13,7 +13,7 @@ const CartItem = ({item}) => {
   const dispatch=useDispatch();
   const removeFromCart=()=>{
 dispatch(remove(item._id))
-toast.success("item removed from cart",{ position: toast.POSITION.TOP_CENTER})
+toast.success("item removed from cart")
   }
   return (
     <div className="w-[100%] md:w-[60%] flex flex-col p-2">

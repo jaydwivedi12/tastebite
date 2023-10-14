@@ -1,6 +1,6 @@
 import axios from 'axios';
 import React, { useContext, useState } from 'react';
-import { Link, NavLink, useNavigate} from 'react-router-dom';
+import { Link, NavLink, useNavigate } from 'react-router-dom';
 import { toast } from 'react-toastify';
 import "react-toastify/dist/ReactToastify.css";
 import AuthContext from '../Context/AuthContext';
@@ -13,10 +13,10 @@ const Login = () => {
   const { setLoggedIn } = useContext(AuthContext);
 
   const navigate = useNavigate();
-
+ 
   const handleLogin = async (e) => {
     e.preventDefault();
-   
+
     try {
       const response = await axios.post('/api/auth/login', {
         email,
