@@ -1,7 +1,13 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
+import axios from 'axios';
 import { useLocation } from 'react-router-dom';
+import { toast } from 'react-toastify';
+import Spinner from '../components/Spinner';
 
 function PaymentReceipt() {
+
+    const [loading, setLoading] = useState(false);
+    const [posts, setPosts] = useState([]);
     const currentDate = new Date();
     const formattedDate = currentDate.toLocaleDateString();
     const { search } = useLocation();
@@ -10,20 +16,70 @@ function PaymentReceipt() {
     const receiptDetails = {
         receiptID: queryParams.get('session_id'),
         date: formattedDate,
-        order: JSON.parse(decodeURIComponent(queryParams.get('order'))),
+        productID: JSON.parse(decodeURIComponent(queryParams.get('order'))),
     };
 
-    const totalAmount = receiptDetails.order.reduce((total, item) => total + item.price, 0);
+    
 
+    async function fetchProductData() {
+        setLoading(true);
+        try {
+          const productData = await Promise.all(
+            receiptDetails.productID.map(async (productId) => {
+              const response = await axios.get(`/api/recipe/get/${productId}`);
+              return response.data.data;
+            })
+          );
+    
+          setPosts(productData);
+        } catch (error) {
+          console.error(error);
+        }
+        setLoading(false);
+      }
+    
+      useEffect(() => {
+        fetchProductData();
+        localStorage.removeItem("cart");
+      }, []);
+    
+  
+    const totalAmount = posts.reduce((total, item) => total + item[0].price, 0);
+    
     const printReceipt = () => {
         window.print();
     }
 
-    const sendReceiptByEmail = () => {
-      
+    const sendReceiptByEmail = async() => {
+
+        toast('📲 Sending Mail', {
+            position: "top-center",
+            autoClose: 4700,
+            hideProgressBar: false,
+            closeOnClick: true,
+            pauseOnHover: false,
+            draggable: true,
+            progress: undefined,
+            theme: "light",
+            });
+
+        try {
+           const response= await axios.post('/api/payment/receiptbymail',{
+             receiptURL: window.location.href
+            })
+            if (response.status===200) {
+              toast.success("Sent Successfully")
+              setLoading(false);
+            }
+        } catch (error) {
+            console.log(error);
+        }
+     
     }
 
+   
     return (
+        loading?<Spinner/>:
         <div className="max-w-[50%] mx-auto bg-white rounded-lg shadow-lg p-8">
             <div className="text-center mb-6">
                 <h1 className="text-2xl font-semibold">Tastebite Payment Receipt</h1>
@@ -42,10 +98,10 @@ function PaymentReceipt() {
                             </tr>
                         </thead>
                         <tbody>
-                            {receiptDetails.order.map((element) => (
-                                <tr key={element._id}>
-                                    <td className="border px-4 py-2">{element.recipe_name}</td>
-                                    <td className="border px-4 py-2">{element.price}</td>
+                            {posts.map((element,index) => (
+                                <tr key={index}>
+                                    <td className="border px-4 py-2">{element[0].recipe_name}</td>
+                                    <td className="border px-4 py-2">{element[0].price}</td>
                                 </tr>
                             ))}
                         </tbody>
