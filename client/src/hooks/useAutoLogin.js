@@ -1,5 +1,4 @@
 import { useContext, useEffect } from 'react';
-import axios from 'axios';
 import AuthContext from '../Context/AuthContext';
 
 const useAutoLogin = () => {

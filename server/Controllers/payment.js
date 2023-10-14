@@ -14,7 +14,8 @@ const stripePay=async(req,res)=>{
             },
             unit_amount:product.price*100,
         },
-        quantity:1
+        quantity:1,
+        order:products
     }))
 
     const session=await stripe.checkout.sessions.create(
@@ -22,7 +23,7 @@ const stripePay=async(req,res)=>{
             payment_method_types:["card"],
             line_items:lineItems,
             mode:"payment",
-            success_url:`http://localhost:3000/success?sessiond_id={CHECKOUT_SESSION_ID}&order=${encodeURIComponent(JSON.stringify(products))}`,
+            success_url:`http://localhost:3000/success?session_id=${CHECKOUT_SESSION_ID}&order=${encodeURIComponent(JSON.stringify(products))}`,
             cancel_url:"http://localhost:3000/cancel", 
         });
         res.json({id:session.id});
