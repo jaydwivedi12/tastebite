@@ -9,7 +9,7 @@ import morgan from 'morgan';
 import cookieParser from 'cookie-parser'; 
 import paymentRouter from './Routes/paymentRoute.js';
 
-const PORT = process.env.PORT;
+const PORT = process.env.PORT || 8080;
 const app = express();
 
 app.use(cors())
