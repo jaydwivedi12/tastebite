@@ -21,10 +21,12 @@ const mailSender = async (email, title, body,attachment) => {
             html: `${body}`,
             attachments: [
                 {
-                    filename: 'tastebite',
-                    content: `${attachment}`,
+                    filename: "tastebite.pdf", 
+                    content: attachment,
+                    contentType: "application/pdf", 
                 },
-            ]
+             
+            ],
 
         })
         console.log(info);

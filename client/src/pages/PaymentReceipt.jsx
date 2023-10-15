@@ -5,7 +5,6 @@ import { toast } from 'react-toastify';
 import Spinner from '../components/Spinner';
 
 function PaymentReceipt() {
-
     const [loading, setLoading] = useState(false);
     const [posts, setPosts] = useState([]);
     const currentDate = new Date();
@@ -14,7 +13,7 @@ function PaymentReceipt() {
     const queryParams = new URLSearchParams(search);
 
     const receiptDetails = {
-        receiptID: queryParams.get('session_id'),
+        orderID: queryParams.get('session_id'),
         date: formattedDate,
         productID: JSON.parse(decodeURIComponent(queryParams.get('order'))),
     };
@@ -54,7 +53,7 @@ function PaymentReceipt() {
 
         toast('📲 Sending Mail', {
             position: "top-center",
-            autoClose: 4700,
+            autoClose: 6000,
             hideProgressBar: false,
             closeOnClick: true,
             pauseOnHover: false,
@@ -64,9 +63,11 @@ function PaymentReceipt() {
             });
 
         try {
-           const response= await axios.post('/api/payment/receiptbymail',{
-             receiptURL: window.location.href
-            })
+           const response= await axios.post('/api/payment/receipt-mail',{
+            orderID:receiptDetails.orderID,
+            recipeID:receiptDetails.productID,
+            totalAmount
+           })
             if (response.status===200) {
               toast.success("Sent Successfully")
               setLoading(false);
@@ -85,7 +86,7 @@ function PaymentReceipt() {
                 <h1 className="text-2xl font-semibold">Tastebite Payment Receipt</h1>
             </div>
             <div className="receipt">
-                <p className="text-sm break-all text-blue-900 font-semibold mb-8">Receipt ID: {receiptDetails.receiptID}</p>
+                <p className="text-sm break-all text-blue-900 font-semibold mb-8">Order ID: {receiptDetails.orderID}</p>
                 <p className="text-sm">Total Amount: {totalAmount}</p>
                 <p className="text-sm">Date: {receiptDetails.date}</p>
                 <div className="text-sm">

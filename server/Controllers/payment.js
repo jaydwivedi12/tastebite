@@ -3,7 +3,8 @@ import Stripe from 'stripe';
 import mailSender from '../utils/mailSender.js';
 import receiptSendTemplate from '../mail/templates/receiptSendTemplate.js';
 import Users from '../Models/userSchema.js';
-import generatePDF from '../utils/generatePdf.js';
+import pdfMaker from '../utils/pdfMaker.js';
+import makeReceipt from '../utils/makeReceipt.js';
 
 dotenv.config();
 const stripe = new Stripe(process.env.STRIPE_PRIVATE);
@@ -39,16 +40,20 @@ const stripePay = async (req, res) => {
 }
 
 const receiptByMail = async (req, res) => {
-         const{receiptURL} = req.body;
     try {
-        const userEmail = req.user.email;
-        const userName = await Users.findOne({ _id: req.user.id }, { name: 1 });
+        const {orderID,recipeID,totalAmount}=req.body
+        const user=await Users.findById({_id:req.user.id})
+        console.log(recipeID);
+        console.log(totalAmount);
+
+        const receiptHTML=await makeReceipt(orderID,recipeID,totalAmount);
+        const receiptPDF=await pdfMaker(receiptHTML);
         await mailSender
             (
-                userEmail,
+                user.email,
                 `TasteBite Purchase Receipt`,
-                receiptSendTemplate(userName),
-                generatePDF(receiptURL)
+                receiptSendTemplate(user.name),
+                receiptPDF  
             );
 
         return res.status(200)

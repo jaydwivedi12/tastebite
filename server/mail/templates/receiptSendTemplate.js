@@ -12,8 +12,8 @@ const receiptSend = (name) => {
     <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto;">
         <h2>Dear ${name},</h2>
         <p>Thank you for your recent purchase. We appreciate your business.</p>
-        <p>Your receipt is attached to this email.</p>
-        p style="font-size: 18px; font-weight: bold; color: #4CAF50; text-align: center;">
+        <p>Your receipt is attached below to this email.</p>
+        <p style="font-size: 18px; font-weight: bold; color: #4CAF50; text-align: center;">
             <i>Tastebite</i>
         </p>
     </div>
