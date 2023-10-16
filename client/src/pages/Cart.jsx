@@ -5,6 +5,7 @@ import { NavLink, useNavigate } from 'react-router-dom'
 import AuthContext from '../Context/AuthContext'
 import { toast } from 'react-toastify'
 import {loadStripe} from '@stripe/stripe-js';
+import SERVER_URI from '../config'
 
 const Cart = () => {
   const STRIPE_PUBLIC_KEY="pk_test_51O0n3hSFqn1wQvdS7qwB2kEho9yTg0YPr4AIlDYwtaeV1oEt1fxYaUNK6BsmNoFe8iwEVUiRS0QIxWSAwFUqyzwD00XWwLpiLF";
@@ -38,10 +39,11 @@ const Cart = () => {
   };
 
   try {
-    const response = await fetch("/api/payment/checkout", {
+    const response = await fetch(`${SERVER_URI}/api/payment/checkout`, {
       method: "POST",
       headers: headers,
       body: JSON.stringify(body),
+      credentials:'include',
     });
 
     if (!response.ok) {

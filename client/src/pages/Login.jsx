@@ -4,7 +4,7 @@ import { Link, NavLink, useNavigate } from 'react-router-dom';
 import { toast } from 'react-toastify';
 import "react-toastify/dist/ReactToastify.css";
 import AuthContext from '../Context/AuthContext';
-
+import SERVER_URI from '../config';
 
 const Login = () => {
   const [email, setEmail] = useState('');
@@ -18,10 +18,10 @@ const Login = () => {
     e.preventDefault();
 
     try {
-      const response = await axios.post('/api/auth/login', {
+      const response = await axios.post(`${SERVER_URI}/api/auth/login`, {
         email,
         password,
-      });
+      },{withCredentials:true});
 
       if (response.status === 200) {
         localStorage.setItem("token", JSON.stringify(response.data.token))
