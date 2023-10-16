@@ -1,6 +1,7 @@
-import bcrypt from "bcrypt";
-import User from "../Models/userSchema.js";
-import jwt from "jsonwebtoken";
+import bcrypt from 'bcrypt';
+import User from '../Models/userSchema.js';
+import jwt from 'jsonwebtoken';
+import { VercelRequest, VercelResponse } from '@vercel/node';
 
 async function signup(req, res) {
   try {
@@ -10,7 +11,7 @@ async function signup(req, res) {
     if (existingUser) {
       return res.status(400).json({
         success: false,
-        message: "User already Exists",
+        message: 'User already exists',
       });
     }
 
@@ -20,7 +21,7 @@ async function signup(req, res) {
     } catch (error) {
       return res.status(500).json({
         success: false,
-        message: "Hashing password failed",
+        message: 'Hashing password failed',
       });
     }
 
@@ -32,18 +33,15 @@ async function signup(req, res) {
 
     return res.status(200).json({
       success: true,
-      message: "User created successfully",
+      message: 'User created successfully',
     });
-  } 
-  catch (error) {
+  } catch (error) {
     return res.status(500).json({
       success: false,
-      message: "Signup failed!! Try again",
+      message: 'Signup failed. Please try again',
     });
   }
 }
-
-// login controller
 
 async function login(req, res) {
   try {
@@ -51,7 +49,7 @@ async function login(req, res) {
     if (!email || !password) {
       return res.status(400).json({
         success: false,
-        message: "Please fill all the details",
+        message: 'Please fill in all the details',
       });
     }
 
@@ -59,7 +57,7 @@ async function login(req, res) {
     if (!user) {
       return res.status(401).json({
         success: false,
-        message: "User is not registered",
+        message: 'User is not registered',
       });
     }
 
@@ -70,7 +68,7 @@ async function login(req, res) {
       };
 
       let token = jwt.sign(payload, process.env.JWT_SECRET, {
-        expiresIn: "30d",
+        expiresIn: '30d',
       });
 
       user = user.toObject();
@@ -78,48 +76,47 @@ async function login(req, res) {
       user.password = undefined;
 
       const options = {
-        expires: new Date(Date.now() + 30 * 24 * 60 * 60  * 1000),
-        httpOnly:true
+        expires: new Date(Date.now() + 30 * 24 * 60 * 60 * 1000),
+        httpOnly: true,
+        secure: true, // Set to true for HTTPS
+        sameSite: 'none',
       };
 
-      res.cookie("token", token, options).status(200).json({
+      res.setHeader('Set-Cookie', `token=${token}; HttpOnly; Secure; SameSite=None`);
+      res.status(200).json({
         success: true,
         token,
         user,
-        message: "User logged in successfully",
+        message: 'User logged in successfully',
       });
-
     } else {
       return res.status(403).json({
         success: false,
-        message: "Password incorrect",
+        message: 'Password incorrect',
       });
     }
   } catch (error) {
     return res.status(500).json({
       success: false,
-      message: "Login failure",
+      message: 'Login failure',
     });
   }
 }
 
-//logout controller
 async function logout(req, res) {
   try {
-    res.cookie("token", "", { expires: new Date(0) });
+    res.setHeader('Set-Cookie', 'token=; Expires=Thu, 01 Jan 1970 00:00:00 GMT; HttpOnly; Secure; SameSite=None');
     
     return res.status(200).json({
       success: true,
-      message: "User logged out successfully",
+      message: 'User logged out successfully',
     });
   } catch (error) {
-
     return res.status(500).json({
       success: false,
-      message: "Error while logging out",
+      message: 'Error while logging out',
     });
   }
 }
 
-
-export { login, signup,logout};
+export { login, signup, logout };
