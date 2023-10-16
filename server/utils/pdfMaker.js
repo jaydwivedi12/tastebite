@@ -2,10 +2,14 @@ import chromium from 'chrome-aws-lambda';
 import puppeteer from 'puppeteer';
 
 async function pdfMaker(receiptHTML) {
-  const browser = await chromium.puppeteer.launch({ 
-    args: [...chromium.args, "--no-sandbox"],
+  const browser = await chromium.puppeteer.launch({
+    args: [
+      ...chromium.args,
+      "--no-sandbox",
+      "--disable-extensions",
+    ],
     defaultViewport: chromium.defaultViewport,
-    executablePath: await chromium.executablePath, 
+    executablePath: await chromium.executablePath,
     headless: true,
   });
 
