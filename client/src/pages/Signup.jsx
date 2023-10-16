@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { NavLink, useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import { toast } from 'react-toastify';
+import SERVER_URI from '../config';
 
 const Signup = () => {
   const navigate=useNavigate();
@@ -20,11 +21,11 @@ const Signup = () => {
     }
 
     try {
-      const response = await axios.post('api/auth/signup', {
+      const response = await axios.post(`${SERVER_URI}/api/auth/signup`, {
         name,
         email,
         password,
-      });
+      },{withCredentials:true});
   
       if (response.status === 200) {
         toast.success("Signup Successfully! Login to Proceed Further", {

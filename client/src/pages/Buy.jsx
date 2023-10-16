@@ -2,16 +2,17 @@ import { useEffect, useState } from "react";
 import Spinner from "../components/Spinner";
 import BuyProduct from "../components/SecretRecipe/BuyProduct";
 import axios from "axios";
+import SERVER_URI from "../config";
 
 const Buy = () => {
-  const API_URL = "/api/recipe/get";
+  const API_URL = `${SERVER_URI}/api/recipe/get`;
   const [loading, setLoading] = useState(false);
   const [posts, setPosts] = useState([]);
 
   async function fetchProductData() {
     setLoading(true);
     try {
-   await axios.get(API_URL)
+   await axios.get(API_URL,{withCredentials:true})
    .then((res)=> setPosts(res.data))
    .catch((error)=>console.error(error))
     } 

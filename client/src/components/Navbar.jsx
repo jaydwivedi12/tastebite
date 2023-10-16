@@ -9,6 +9,7 @@ import AuthContext from '../Context/AuthContext';
 import { toast } from 'react-toastify';
 import Profile from './Profile';
 import axios from 'axios';
+import SERVER_URI from '../config';
 
 
 const Navbar = () => {
@@ -28,7 +29,7 @@ const Navbar = () => {
   }
 
   const logoutHandler= async()=>{
-    await axios.post("/api/auth/logout")
+    await axios.post(`${SERVER_URI}/api/auth/logout`,null,{withCredentials:true})
     localStorage.removeItem("token")
     localStorage.removeItem("isloggedIn")
     toast.success("Logged Out")

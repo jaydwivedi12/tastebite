@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import jwt_decode from 'jwt-decode';
 import Spinner from './Spinner';
+import SERVER_URI from '../config';
 
 const Profile = () => {
   const [user, setUser] = useState(null);
@@ -11,7 +12,7 @@ const Profile = () => {
 
   const fetchProfileData = async () => {
     try {
-      const response = await axios.get(`/api/auth/profile/${id}`);
+      const response = await axios.get(`${SERVER_URI}/api/auth/profile/${id}`,{withCredentials:true});
       setUser(response.data);
     } catch (error) {
       console.error('Error fetching profile data:', error);

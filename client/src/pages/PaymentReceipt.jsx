@@ -3,6 +3,7 @@ import axios from 'axios';
 import { useLocation } from 'react-router-dom';
 import { toast } from 'react-toastify';
 import Spinner from '../components/Spinner';
+import SERVER_URI from '../config';
 
 function PaymentReceipt() {
     const [loading, setLoading] = useState(false);
@@ -25,7 +26,7 @@ function PaymentReceipt() {
         try {
           const productData = await Promise.all(
             receiptDetails.productID.map(async (productId) => {
-              const response = await axios.get(`/api/recipe/get/${productId}`);
+              const response = await axios.get(`${SERVER_URI}/api/recipe/get/${productId}`,{withCredentials:true});
               return response.data.data;
             })
           );
@@ -63,11 +64,11 @@ function PaymentReceipt() {
             });
 
         try {
-           const response= await axios.post('/api/payment/receipt-mail',{
+           const response= await axios.post(`${SERVER_URI}/api/payment/receipt-mail`,{
             orderID:receiptDetails.orderID,
             recipeID:receiptDetails.productID,
             totalAmount
-           })
+           },{withCredentials:true})
             if (response.status===200) {
               toast.success("Sent Successfully")
               setLoading(false);

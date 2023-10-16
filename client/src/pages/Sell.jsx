@@ -5,7 +5,7 @@ import 'react-toastify/dist/ReactToastify.css';
 import { useContext } from "react";
 import { useNavigate } from "react-router-dom";
 import AuthContext from "../Context/AuthContext";
-
+import SERVER_URI from "../config";
 
 function Sell() {
   const{loggedIn}=useContext(AuthContext)
@@ -58,7 +58,7 @@ function Sell() {
   formDataToSend.append("time", formData.time);
 
   try {
-    const response = await axios.post("/api/recipe/add", formDataToSend);
+    const response = await axios.post(`${SERVER_URI}/api/recipe/add`, formDataToSend,{withCredentials:true});
     if (response.status === 200) {
       navigate("/");
       toast.success("Recipe Added SuccessFully");
