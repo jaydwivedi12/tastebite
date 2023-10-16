@@ -5,6 +5,8 @@ import receiptSendTemplate from '../mail/templates/receiptSendTemplate.js';
 import Users from '../Models/userSchema.js';
 import pdfMaker from '../utils/pdfMaker.js';
 import makeReceipt from '../utils/makeReceipt.js';
+import CLIENT_URI from '../config.js';
+
 
 dotenv.config();
 const stripe = new Stripe(process.env.STRIPE_PRIVATE);
@@ -33,8 +35,8 @@ const stripePay = async (req, res) => {
             payment_method_types: ["card"],
             line_items: lineItems,
             mode: "payment",
-            success_url: `http://localhost:3000/success?session_id={CHECKOUT_SESSION_ID}&order=${encodeURIComponent(JSON.stringify(pId))}`,
-            cancel_url: "http://localhost:3000/cancel",
+            success_url: `${CLIENT_URI}/success?session_id={CHECKOUT_SESSION_ID}&order=${encodeURIComponent(JSON.stringify(pId))}`,
+            cancel_url: `${CLIENT_URI}/cancel`,
         });
     res.json({ id: session.id });
 }
