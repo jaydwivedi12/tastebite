@@ -1,8 +1,15 @@
-import puppeteer from 'puppeteer'
-async function pdfMaker(receiptHTML) {
-  const browser = await puppeteer.launch();
-  const page = await browser.newPage();
+import chromium from 'chrome-aws-lambda';
+import puppeteer from 'puppeteer';
 
+async function pdfMaker(receiptHTML) {
+  const browser = await chromium.puppeteer.launch({ 
+    args: [...chromium.args, "--no-sandbox"],
+    defaultViewport: chromium.defaultViewport,
+    executablePath: await chromium.executablePath, 
+    headless: true,
+  });
+
+  const page = await browser.newPage();
 
   await page.setContent(receiptHTML);
 
