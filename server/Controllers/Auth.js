@@ -1,9 +1,10 @@
 import bcrypt from 'bcrypt';
 import User from '../Models/userSchema.js';
 import jwt from 'jsonwebtoken';
-import { VercelRequest, VercelResponse } from '@vercel/node';
+import vercel from '@vercel/node';
+const { VercelRequest, VercelResponse } = vercel;
 
-async function signup(req, res) {
+async function signup(req=VercelRequest, res=VercelResponse) {
   try {
     const { name, email, password } = req.body;
     const existingUser = await User.findOne({ email });
