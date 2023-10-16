@@ -26,6 +26,7 @@ app.get('/', (req, res) => {
   res.send('Hello World!')
 })
 
+
 app.use('/api/auth', authRouter);
 app.use('/api/recipe', recipeRouter);
 app.use('/api/payment',paymentRouter)

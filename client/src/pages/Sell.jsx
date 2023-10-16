@@ -56,9 +56,16 @@ function Sell() {
   formDataToSend.append("process", formData.process);
   formDataToSend.append("price", formData.price);
   formDataToSend.append("time", formData.time);
-
+ 
+  const token = localStorage.getItem('token');
+  const config = {
+    withCredentials: true,
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  };
   try {
-    const response = await axios.post(`${SERVER_URI}/api/recipe/add`, formDataToSend,{withCredentials:true});
+    const response = await axios.post(`${SERVER_URI}/api/recipe/add`, formDataToSend,config);
     if (response.status === 200) {
       navigate("/");
       toast.success("Recipe Added SuccessFully");

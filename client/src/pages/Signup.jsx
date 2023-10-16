@@ -19,13 +19,21 @@ const Signup = () => {
       setError('Passwords do not match');
       return;
     }
-
+   
+    const token = localStorage.getItem('token');
+    const config = {
+      withCredentials: true,
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    };
+    
     try {
       const response = await axios.post(`${SERVER_URI}/api/auth/signup`, {
         name,
         email,
         password,
-      },{withCredentials:true});
+      },config);
   
       if (response.status === 200) {
         toast.success("Signup Successfully! Login to Proceed Further", {

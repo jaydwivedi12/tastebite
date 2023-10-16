@@ -28,8 +28,16 @@ const Navbar = () => {
     setShowProfile(!showProfile);
   }
 
+  const token = localStorage.getItem('token');
+  const config = {
+    withCredentials: true,
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  };
+  
   const logoutHandler= async()=>{
-    await axios.post(`${SERVER_URI}/api/auth/logout`,null,{withCredentials:true})
+    await axios.post(`${SERVER_URI}/api/auth/logout`,null,config)
     localStorage.removeItem("token")
     localStorage.removeItem("isloggedIn")
     toast.success("Logged Out")

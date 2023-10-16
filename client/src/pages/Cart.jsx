@@ -13,7 +13,7 @@ const Cart = () => {
   const [totalAmount, setTotalAmount] = useState(0);
   const {loggedIn}=useContext(AuthContext);
   const navigate=useNavigate();
-
+  const token = localStorage.getItem('token');
 
   const checkoutHandler = async () => {
   if (!loggedIn) {
@@ -36,6 +36,7 @@ const Cart = () => {
 
   const headers = {
     "Content-Type": "application/json",
+    Authorization:`Bearer ${token}`
   };
 
   try {

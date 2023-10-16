@@ -10,9 +10,16 @@ const Profile = () => {
   const decodedToken = jwt_decode(token);
   const id = decodedToken.id;
 
+  const config = {
+    withCredentials: true,
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  };
+
   const fetchProfileData = async () => {
     try {
-      const response = await axios.get(`${SERVER_URI}/api/auth/profile/${id}`,{withCredentials:true});
+      const response = await axios.get(`${SERVER_URI}/api/auth/profile/${id}`,config);
       setUser(response.data);
     } catch (error) {
       console.error('Error fetching profile data:', error);

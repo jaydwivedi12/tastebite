@@ -19,14 +19,20 @@ function PaymentReceipt() {
         productID: JSON.parse(decodeURIComponent(queryParams.get('order'))),
     };
 
-    
-
+     
+    const token = localStorage.getItem('token');
+    const config = {
+      withCredentials: true,
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    };
     async function fetchProductData() {
         setLoading(true);
         try {
           const productData = await Promise.all(
             receiptDetails.productID.map(async (productId) => {
-              const response = await axios.get(`${SERVER_URI}/api/recipe/get/${productId}`,{withCredentials:true});
+              const response = await axios.get(`${SERVER_URI}/api/recipe/get/${productId}`,config);
               return response.data.data;
             })
           );
@@ -68,7 +74,7 @@ function PaymentReceipt() {
             orderID:receiptDetails.orderID,
             recipeID:receiptDetails.productID,
             totalAmount
-           },{withCredentials:true})
+           },config)
             if (response.status===200) {
               toast.success("Sent Successfully")
               setLoading(false);

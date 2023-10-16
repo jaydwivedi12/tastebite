@@ -16,12 +16,19 @@ const Login = () => {
  
   const handleLogin = async (e) => {
     e.preventDefault();
-
+    
+    const token = localStorage.getItem('token');
+    const config = {
+      withCredentials: true,
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    };
     try {
       const response = await axios.post(`${SERVER_URI}/api/auth/login`, {
         email,
         password,
-      },{withCredentials:true});
+      },config);
 
       if (response.status === 200) {
         localStorage.setItem("token", JSON.stringify(response.data.token))
