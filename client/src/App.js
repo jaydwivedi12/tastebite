@@ -12,6 +12,7 @@ import './styles/App.css'
 import PaymentReceipt from './pages/PaymentReceipt'
 import PaymentFailed from './pages/PaymentFailed'
 import useAutoLogin from './hooks/useAutoLogin'
+import Footer from './components/Footer'
 
 
 const App = () => {
@@ -31,8 +32,10 @@ const App = () => {
         <Route path='/cart' element={<Cart />} />
         <Route path='/success' element={<PaymentReceipt/>}/>
         <Route path='/cancel' element={<PaymentFailed/>}/>
-      
       </Routes>
+      <div>
+        <Footer />
+      </div>
     </div>
   )
 }

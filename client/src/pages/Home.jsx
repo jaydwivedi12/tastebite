@@ -74,7 +74,7 @@ const Home = () => {
       <div className="text-4xl bg-inherit flex justify-center items-center ">
         Find Free Recipes
       </div>
-      <div className="text-xl bg-inherit flex justify-center items-center gap-10 my-10 border border-black px-5">
+      <div  className="text-xl bg-inherit flex justify-center items-center gap-10 my-10 border-2 rounded-2xl border-blue-900 px-5">
         <i
           className="fa-solid fa-angles-right fa-beat"
           style={{ color: "#04ff00" }}
@@ -85,7 +85,7 @@ const Home = () => {
           placeholder="Enter Recipe Name "
           onChange={searchHandler}
         />
-        <div className="hover:cursor-pointer" onClick={fetchProductData}>
+        <div className="hover:cursor-pointer :" onClick={fetchProductData}>
           <TfiSearch />
         </div>
       </div>

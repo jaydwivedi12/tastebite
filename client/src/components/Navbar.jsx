@@ -2,7 +2,6 @@ import React, { useState } from 'react';
 import { FaShoppingCart, FaBars } from 'react-icons/fa';
 import { RxCross2} from "react-icons/rx"
 import { NavLink,Link, useNavigate } from 'react-router-dom';
-import logo from "../assets/logo.png"
 import { useSelector } from 'react-redux';
 import { useContext } from 'react';
 import AuthContext from '../Context/AuthContext';
@@ -47,19 +46,19 @@ const Navbar = () => {
   }
   return (
     <div>
-      <nav className=' bg-blue-950 flex flex-row justify-between items-center px-4 md:px-24 py-2 relative text-white'>
-        <Link to="/" className="h-20">
+      <nav className=' bg-white border mb-2 flex flex-row justify-between items-center px-4 md:px-24 py-2 relative text-black'>
+        <Link to="/">
           <div>
-            <img src={logo} alt="logo" className="h-20" />
+           <span className='text-4xl font-pacifico text-blue-900'> Taste Bite </span>
           </div>
         </Link>
 
-        <div className='md:hidden text-white cursor-pointer text-4xl' onClick={toggleMenu}>
+        <div className='md:hidden text-black cursor-pointer text-4xl' onClick={toggleMenu}>
         { showMenu ? <RxCross2 className='font-bold'/>:<FaBars  /> } 
         </div>
 
-        <div className={`hide-on-print absolute top-24 p-3 right-0 bg-gray-700 flex-col gap-5 
-        md:bg-inherit text-center md:static flex md:flex-row md:space-x-6 text-white 
+        <div className={`hide-on-print absolute top-24 p-3 right-0 bg-orange-50  flex-col gap-5 
+        md:bg-inherit text-center md:static flex md:flex-row md:space-x-6 text-black
         ${showMenu ? 'block' : 'hidden'}`}>
           <NavLink to="/">
             <p>Home</p>

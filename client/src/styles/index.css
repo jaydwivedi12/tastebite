@@ -9,7 +9,11 @@
 }
 
 body {
-  font-family: "Poppins", sans-serif;
+  font-family: "Poppins",sans-serif;
   min-height: 100vh;
   background-color: #fff;
+}
+
+.font-pacifico {
+  font-family: 'Pacifico', cursive;
 }
